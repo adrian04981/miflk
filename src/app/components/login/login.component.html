@@ -1,0 +1,85 @@
+<div class="login-container">
+  <div class="login-card">
+    <mat-card class="modern-card">
+      <mat-card-header>
+        <div mat-card-avatar class="login-avatar">
+          <i class="fas fa-building"></i>
+        </div>
+        <mat-card-title>
+          <span class="brand-name">Miflk</span>
+          <span class="brand-subtitle">Business Platform</span>
+        </mat-card-title>
+        <mat-card-subtitle>Accede a tu cuenta empresarial</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="input-group">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label><i class="fas fa-envelope"></i> Email</mat-label>
+              <input matInput
+                     type="email"
+                     formControlName="email"
+                     placeholder="ejemplo@correo.com"
+                     autocomplete="email">
+              <mat-icon matSuffix>email</mat-icon>
+              <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+                Email es requerido
+              </mat-error>
+              <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+                Email inválido
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label><i class="fas fa-lock"></i> Contraseña</mat-label>
+              <input matInput
+                     [type]="hidePassword ? 'password' : 'text'"
+                     formControlName="password"
+                     placeholder="Contraseña"
+                     autocomplete="current-password">
+              <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+                Contraseña es requerida
+              </mat-error>
+              <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+                La contraseña debe tener al menos 6 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="login-actions">
+            <button mat-raised-button
+                    color="primary"
+                    class="login-btn"
+                    type="submit"
+                    [disabled]="!loginForm.valid || loading">
+              <i class="fas fa-sign-in-alt"></i>
+              <span *ngIf="!loading">Iniciar Sesión</span>
+              <span *ngIf="loading">Iniciando...</span>
+            </button>
+          </div>
+        </form>
+
+        <div class="login-divider">
+          <span>o</span>
+        </div>
+
+        <div class="login-links">
+          <a href="/setup" class="setup-link">
+            <i class="fas fa-cogs"></i>
+            Configuración inicial
+          </a>
+          <a href="/simple-login" class="demo-link">
+            <i class="fas fa-eye"></i>
+            Vista de demostración
+          </a>
+        </div>
+
+        <mat-progress-bar *ngIf="loading" mode="indeterminate" class="progress-bar"></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

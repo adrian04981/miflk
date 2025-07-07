@@ -1,0 +1,205 @@
+<div class="settings">
+  <div class="header-section">
+    <mat-card class="header-card">
+      <mat-card-content>
+        <div class="header-content">
+          <div class="header-text">
+            <h1><i class="fas fa-cogs"></i> Configuración</h1>
+            <p class="header-subtitle">Administra las configuraciones del sistema</p>
+            <div class="header-stats">
+              <span class="stat-badge"><i class="fas fa-server"></i> Sistema activo</span>
+              <span class="stat-badge active"><i class="fas fa-check-circle"></i> Configurado</span>
+            </div>
+          </div>
+          <div class="header-icon">
+            <i class="fas fa-sliders-h"></i>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="settings-content">
+    <div class="settings-grid">
+      <!-- Configuración de Email -->
+      <mat-card class="settings-card email-card">
+        <mat-card-header>
+          <div class="card-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <mat-card-title>
+            Configuración de Correo
+          </mat-card-title>
+          <mat-card-subtitle>
+            Configurar servidor SMTP para envío de correos
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="emailForm" (ngSubmit)="saveEmailSettings()">
+            <div class="form-grid">
+              <mat-form-field appearance="outline">
+                <mat-label><i class="fas fa-server"></i> Servidor SMTP</mat-label>
+                <input matInput formControlName="host" placeholder="smtp.gmail.com">
+                <mat-error *ngIf="emailForm.get('host')?.hasError('required')">
+                  Servidor SMTP es requerido
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label><i class="fas fa-plug"></i> Puerto</mat-label>
+                <input matInput formControlName="port" placeholder="587" type="number">
+                <mat-error *ngIf="emailForm.get('port')?.hasError('required')">
+                  Puerto es requerido
+                </mat-error>
+                <mat-error *ngIf="emailForm.get('port')?.hasError('pattern')">
+                  Puerto debe ser un número
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label><i class="fas fa-shield-alt"></i> Seguridad</mat-label>
+                <mat-select formControlName="security">
+                  <mat-option *ngFor="let option of securityOptions" [value]="option.value">
+                    <i class="fas fa-lock"></i> {{ option.label }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="emailForm.get('security')?.hasError('required')">
+                  Tipo de seguridad es requerido
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label><i class="fas fa-user"></i> Usuario</mat-label>
+                <input matInput formControlName="username" placeholder="usuario@ejemplo.com" type="email">
+                <mat-error *ngIf="emailForm.get('username')?.hasError('required')">
+                  Usuario es requerido
+                </mat-error>
+                <mat-error *ngIf="emailForm.get('username')?.hasError('email')">
+                  Email inválido
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label><i class="fas fa-key"></i> Contraseña</mat-label>
+                <input matInput 
+                       [type]="hidePassword ? 'password' : 'text'"
+                       formControlName="password" 
+                       placeholder="Contraseña de aplicación">
+                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+                  <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="emailForm.get('password')?.hasError('required')">
+                  Contraseña es requerida
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-actions">
+              <button mat-button type="button" class="test-btn" (click)="testEmailConnection()">
+                <i class="fas fa-wifi"></i>
+                Probar Conexión
+              </button>
+              <button mat-raised-button color="primary" type="submit" class="save-btn" [disabled]="!emailForm.valid">
+                <i class="fas fa-save"></i>
+                Guardar Configuración
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Configuración del Sistema -->
+      <mat-card class="settings-card system-card">
+        <mat-card-header>
+          <div class="card-icon">
+            <i class="fas fa-building"></i>
+          </div>
+          <mat-card-title>
+            Configuración del Sistema
+          </mat-card-title>
+          <mat-card-subtitle>
+            Información general de la empresa
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="systemForm" (ngSubmit)="saveSystemSettings()">
+            <div class="form-grid">
+              <mat-form-field appearance="outline">
+                <mat-label><i class="fas fa-building"></i> Nombre de la Empresa</mat-label>
+                <input matInput formControlName="companyName" placeholder="Miflk">
+                <mat-error *ngIf="systemForm.get('companyName')?.hasError('required')">
+                  Nombre de la empresa es requerido
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Email de la Empresa</mat-label>
+                <input matInput formControlName="companyEmail" placeholder="info@miflk.com" type="email">
+                <mat-error *ngIf="systemForm.get('companyEmail')?.hasError('required')">
+                  Email de la empresa es requerido
+                </mat-error>
+                <mat-error *ngIf="systemForm.get('companyEmail')?.hasError('email')">
+                  Email inválido
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Teléfono de la Empresa</mat-label>
+                <input matInput formControlName="companyPhone" placeholder="+1 (555) 123-4567">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Dirección de la Empresa</mat-label>
+                <textarea matInput formControlName="companyAddress" rows="3" placeholder="Dirección completa"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="form-actions">
+              <button mat-raised-button color="primary" type="submit" [disabled]="!systemForm.valid">
+                <mat-icon>save</mat-icon>
+                Guardar Configuración
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Información Adicional -->
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>info</mat-icon>
+          Información Importante
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-content">
+          <div class="info-item">
+            <h3>Configuración de Correo</h3>
+            <p>
+              Para Gmail, asegúrate de usar una <strong>contraseña de aplicación</strong> en lugar de tu contraseña regular.
+              Puedes generar una en tu cuenta de Google en Configuración > Seguridad > Contraseñas de aplicaciones.
+            </p>
+          </div>
+
+          <div class="info-item">
+            <h3>Seguridad</h3>
+            <p>
+              Todas las configuraciones se almacenan de forma segura. Las contraseñas se cifran antes de guardarse
+              en la base de datos.
+            </p>
+          </div>
+
+          <div class="info-item">
+            <h3>Respaldo</h3>
+            <p>
+              Se recomienda hacer un respaldo de las configuraciones antes de realizar cambios importantes.
+              Contacta al administrador del sistema para más información.
+            </p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

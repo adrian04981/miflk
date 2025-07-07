@@ -1,0 +1,147 @@
+<div class="dashboard-home">
+  <div class="welcome-section">
+    <mat-card class="welcome-card">
+      <mat-card-content>
+        <div class="welcome-content">
+          <div class="welcome-text">
+            <h1><i class="fas fa-hand-wave"></i> {{ getGreeting() }}, {{ currentUser?.personalInfo?.firstName }}!</h1>
+            <p class="welcome-subtitle">Bienvenido a tu panel de control empresarial</p>
+            <span class="welcome-badge">{{ getRoleLabel() }}</span>
+          </div>
+          <div class="welcome-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="stats-section" *ngIf="currentUser?.role === UserRole.ADMIN">
+    <mat-grid-list cols="4" rowHeight="150px" [gutterSize]="'16px'">
+      <mat-grid-tile>
+        <mat-card class="stat-card users-card">
+          <mat-card-content>
+            <div class="stat-content">
+              <div class="stat-icon users-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Usuarios</h3>
+                <p class="stat-number">--</p>
+                <span class="stat-label">Total registrados</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-card class="stat-card roles-card">
+          <mat-card-content>
+            <div class="stat-content">
+              <div class="stat-icon roles-icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Roles</h3>
+                <p class="stat-number">--</p>
+                <span class="stat-label">Perfiles activos</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-card class="stat-card active-card">
+          <mat-card-content>
+            <div class="stat-content">
+              <div class="stat-icon active-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Activos</h3>
+                <p class="stat-number">--</p>
+                <span class="stat-label">Usuarios online</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-card class="stat-card settings-card">
+          <mat-card-content>
+            <div class="stat-content">
+              <div class="stat-icon settings-icon">
+                <i class="fas fa-cog"></i>
+              </div>
+              <div class="stat-info">
+                <h3>Configuración</h3>
+                <p class="stat-number">1</p>
+                <span class="stat-label">Sistema activo</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+  <div class="info-section">
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>
+          <i class="fas fa-user-circle"></i>
+          Información del Usuario
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="user-info-grid">
+          <div class="info-item">
+            <i class="fas fa-id-card"></i>
+            <strong>Nombre:</strong>
+            <span>{{ currentUser?.personalInfo?.firstName }} {{ currentUser?.personalInfo?.lastName }}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-envelope"></i>
+            <strong>Email:</strong>
+            <span>{{ currentUser?.email }}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-user-shield"></i>
+            <strong>Rol:</strong>
+            <span class="role-badge">{{ currentUser?.role === UserRole.ADMIN ? 'Administrador' : 'Empleado' }}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-globe"></i>
+            <strong>Nacionalidad:</strong>
+            <span>{{ currentUser?.personalInfo?.nationality }}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-id-badge"></i>
+            <strong>Tipo de Documento:</strong>
+            <span>{{ currentUser?.personalInfo?.documentType }}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-hashtag"></i>
+            <strong>Número de Documento:</strong>
+            <span>{{ currentUser?.personalInfo?.documentNumber }}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <strong>País de Residencia:</strong>
+            <span>{{ currentUser?.personalInfo?.countryOfResidence }}</span>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-power-off"></i>
+            <strong>Estado:</strong>
+            <span [class]="currentUser?.isActive ? 'status-active' : 'status-inactive'">
+              {{ currentUser?.isActive ? 'Activo' : 'Inactivo' }}
+            </span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
